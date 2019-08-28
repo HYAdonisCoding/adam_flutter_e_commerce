@@ -1,6 +1,6 @@
 # adam_flutter_e_commerce
 
-A new Flutter project.
+A flutter project of E_commerce.
 
 ## Getting Started
 
@@ -14,3 +14,16 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our 
 [online documentation](https://flutter.dev/docs), which offers tutorials, 
 samples, guidance on mobile development, and a full API reference.
+
+#Author
+
+>[HYAdonisCoding]
+
+#Licenses
+
+>All source code is licensed under the [MIT License].
+
+
+---
+[HYAdonisCoding]:https://github.com/HYAdonisCoding
+[MIT License]:https://github.com/HYAdonisCoding/HYCoreAnimationStudy/blob/master/LICENSE
