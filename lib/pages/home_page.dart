@@ -14,7 +14,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('美好人间'),),
-      body: Container(
+      body: SingleChildScrollView(
+        child: Container(
         height: 1000,
         child: Column(
           children: <Widget>[
@@ -34,13 +35,13 @@ class _HomePageState extends State<HomePage> {
                 if (typeController.text.toString()=='') {
                   showDialog(
                     context: context,
-                    builder: (context)=>AlertDialog(title: Text('美女类型不能为空!'),)
+                    builder: (context)=>AlertDialog(title: Text('美女类型不能为空!'))
                   );
                 } else {
                   getHttp(typeController.text.toString()).then((val){
                     setState((){
-                      print(val['name']);
-                      showText=val['name'].toString();
+                      print(val['data']['name']);
+                      showText=val['data']['name'].toString();
                     });
                   });
                 }
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      )
     );
   }
 
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomePage> {
     try{
       Response response;
       var params = {'name': typeText};
-      response = await Dio().get('https://www.easy-mock.com/mock/5d661e58dedc794b6c2f8093/apiphoneweb/dabaojian.do',
+      response = await Dio().post('https://www.easy-mock.com/mock/5d661e58dedc794b6c2f8093/apiphoneweb/dabaojian.do',
             queryParameters: params
           );
       return response.data;
