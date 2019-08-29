@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import '../config/httpHeaders.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,85 +8,50 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TextEditingController typeController = TextEditingController();
-  String showText = '欢迎您来到美好人间';
+  String showText = 'Have not requested remote data yet';
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('美好人间'),),
-      body: SingleChildScrollView(
-        child: Container(
-        height: 1000,
-        child: Column(
-          children: <Widget>[
-            TextField(
-              controller: typeController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.gesture),
-                contentPadding: EdgeInsets.all(10.0),
-                labelText: '美女类型',
-                helperText: '请输入您喜欢的类型'
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(title:Text('Request remote data')),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              RaisedButton(
+                onPressed: _geekbang,
+                child: Text('Send Request'),
+                padding: EdgeInsets.only(left: 100, right: 100),
               ),
-              autofocus: false,
-            ),
-            RaisedButton(
-              onPressed: (){
-                print('开始选择你喜欢的类型...');
-                if (typeController.text.toString()=='') {
-                  showDialog(
-                    context: context,
-                    builder: (context)=>AlertDialog(title: Text('美女类型不能为空!'))
-                  );
-                } else {
-                  getHttp(typeController.text.toString()).then((val){
-                    setState((){
-                      print(val['data']['name']);
-                      showText=val['data']['name'].toString();
-                    });
-                  });
-                }
-              },
-              child: Text('选择完毕'),
-            ),
-            Text(
-              showText,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-            )
-          ],
+              Text(showText),
+            ],
+          ),
         ),
       ),
-      )
     );
   }
 
-  void _choiceActioin() {
-    print('开始选择你喜欢的类型...');
-    if (typeController.text.toString()=='') {
-      showDialog(
-        context: context,
-        builder: (context)=>AlertDialog(title: Text('美女类型不能为空!'),)
-      );
-    } else {
-      getHttp(typeController.text.toString()).then((val){
-        setState((){
-          showText=val['data']['name'].toString();
-        });
+  void _geekbang(){
+    print('开始向极客时间请求数据.........');
+    getHttp().then((val){
+      setState(() {
+        showText = val['data'].toString();
       });
-    }
+    });
   }
 
-  Future getHttp(String typeText) async {
-    try{
+  Future getHttp() async {
+    try {
       Response response;
-      var params = {'name': typeText};
-      response = await Dio().post('https://www.easy-mock.com/mock/5d661e58dedc794b6c2f8093/apiphoneweb/dabaojian.do',
-            queryParameters: params
-          );
+      Dio dio = new Dio();
+      dio.options.headers = httpHeaders;
+      response = await dio.get('https://time.geekbang.org/serv/v1/column/newAll');
+      print(response.data);
       return response.data;
-    } catch(e){
-      return print(e);
+    } catch(e) {
+      print(e);
+      return e;
     }
   }
 }
