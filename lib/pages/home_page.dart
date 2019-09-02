@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../service/service_method.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'dart:convert' show json;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../tools/hy_display_widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -33,15 +35,19 @@ class _HomePageState extends State<HomePage> {
               
               var data = snapshot.data ;
               
-              print('000=========$data');
-              Map<String, dynamic> user = json.decode(data.toString());  
+              // print('000=========$data');
+              //<String, dynamic>
+              Map user = json.decode(data.toString());  
               List<Map> swiperDataList = (user['data']['returnData']['galleryItems'] as List).cast();
-              
+              List<Map> comicLists = (user['data']['returnData']['comicLists'] as List).cast();
       
-              // print('123==============\n$swiperDataList');
+              // print('123==============\n${comicLists[0]}');
               return Column(
                 children: <Widget>[
-                  SwiperDiy(swiperDataList: swiperDataList,)
+                  SwiperDiy(swiperDataList: swiperDataList,),
+                  // TopNavigator(navigatorList: (comicLists[0]['comics'] as List).cast()),
+                  HomePageWidget(comicLists: comicLists,),
+                  
 
                 ],
               );
@@ -67,8 +73,12 @@ class SwiperDiy extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    //  print('设备宽度:${ScreenUtil.screenWidth}');
+    //  print('设备高度:${ScreenUtil.screenHeight}');
+    //  print('设备像素密度:${ScreenUtil.pixelRatio}');
     return Container(
-      height: 200,
+      height: ScreenUtil().setHeight(333),
+      width: ScreenUtil().setWidth(750),
       child: Swiper(
         itemBuilder: (BuildContext context, int index){
           return Image.network("${swiperDataList[index]['cover']}", fit: BoxFit.fill);
