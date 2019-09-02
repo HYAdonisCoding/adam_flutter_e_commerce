@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../config/httpHeaders.dart';
+import '../service/service_method.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
+import 'dart:convert' show json;
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,50 +10,73 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String showText = 'Have not requested remote data yet';
+  String homePageContent = 'HomePage';
 
-
+  @override
+  void initState() {
+    getHomePageContent().then((val){
+      setState(() {
+        homePageContent=val.toString();
+      });
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(title:Text('Request remote data')),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              RaisedButton(
-                onPressed: _geekbang,
-                child: Text('Send Request'),
-                padding: EdgeInsets.only(left: 100, right: 100),
-              ),
-              Text(showText),
-            ],
-          ),
-        ),
+        appBar: AppBar(title:Text('Car life')),
+        body: FutureBuilder(
+          future: getHomePageContent(),
+          builder: (context, snapshot){
+            if (snapshot.hasData) {
+              
+              var data = snapshot.data ;
+              
+              print('000=========$data');
+              Map<String, dynamic> user = json.decode(data.toString());  
+              List<Map> swiperDataList = (user['data']['returnData']['galleryItems'] as List).cast();
+              
+      
+              // print('123==============\n$swiperDataList');
+              return Column(
+                children: <Widget>[
+                  SwiperDiy(swiperDataList: swiperDataList,)
+
+                ],
+              );
+            } else {
+              return Center(child: Text('Loading...'),);
+            }
+          },
+        )
       ),
     );
   }
 
-  void _geekbang(){
-    print('开始向极客时间请求数据.........');
-    getHttp().then((val){
-      setState(() {
-        showText = val['data'].toString();
-      });
-    });
-  }
+  
+}
 
-  Future getHttp() async {
-    try {
-      Response response;
-      Dio dio = new Dio();
-      dio.options.headers = httpHeaders;
-      response = await dio.get('https://time.geekbang.org/serv/v1/column/newAll');
-      print(response.data);
-      return response.data;
-    } catch(e) {
-      print(e);
-      return e;
-    }
+
+// 首页轮播组件
+class SwiperDiy extends StatelessWidget {
+
+  final List swiperDataList;
+
+  SwiperDiy({Key key, this.swiperDataList}):super(key:key);
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: Swiper(
+        itemBuilder: (BuildContext context, int index){
+          return Image.network("${swiperDataList[index]['cover']}", fit: BoxFit.fill);
+        },
+        itemCount: swiperDataList.length,
+        pagination:  new SwiperPagination(),
+        autoplay: true,
+      )
+    );
   }
 }

@@ -1,5 +1,5 @@
-const service = 'http://test.baixingliangfan.cn/baixing/';
+const service = 'http://app.u17.com/v3/appV3_3/ios/phone/';
 
 class ServicePath {
-  final homePageContent = service+'wxmini/homePageContent';
+  static const boutiqueListNew = service+'comic/boutiqueListNew';
 }
