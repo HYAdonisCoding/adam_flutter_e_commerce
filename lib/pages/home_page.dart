@@ -11,7 +11,10 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   String homePageContent = 'HomePage';
 
   @override
@@ -22,6 +25,7 @@ class _HomePageState extends State<HomePage> {
       });
     });
     super.initState();
+    print('11111111111');
   }
   @override
   Widget build(BuildContext context) {

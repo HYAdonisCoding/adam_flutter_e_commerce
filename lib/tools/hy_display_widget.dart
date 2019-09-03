@@ -14,7 +14,7 @@ class TopNavigator extends StatelessWidget {
         onTap: (){ print('点击了导航!');},
         child: Column(
           children: <Widget>[
-            Image.network(item['cover'], width:ScreenUtil().setWidth(750/2), height: ScreenUtil().setHeight(240), fit: BoxFit.fill),
+            Image.network(item['cover'], width:ScreenUtil().setWidth(750/2), height: ScreenUtil().setHeight(200), fit: BoxFit.fill),
             Text(item['name'], style: TextStyle(fontSize: 12, color: Colors.blueGrey,), textAlign: TextAlign.left,),
             Text(item['subTitle'], style: TextStyle(fontSize: 10, color: Colors.grey), textAlign: TextAlign.left)
           ],
@@ -40,7 +40,7 @@ class TopNavigator extends StatelessWidget {
     print("itemTitle - ${comics['itemTitle']}");
     
     return Container(
-      height: ScreenUtil().setHeight(640),
+      height: ScreenUtil().setHeight(500),
       padding: EdgeInsets.all(3.0),
       child: Scaffold(
         body: Column(
