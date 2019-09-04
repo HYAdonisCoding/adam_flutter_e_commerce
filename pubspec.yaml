@@ -28,6 +28,21 @@ dependencies:
   flutter_swiper: ^1.1.6
   # add flutter_ScreenUtil
   flutter_screenutil: ^0.5.3
+  # Open URL in the default browser\ Create email to in the default email app\Make a phone call to using the default phone app\Send an SMS message to using the default messaging app
+  url_launcher: ^5.0.1
+
+  flutter_easyrefresh: ^1.2.7
+
+  # state management
+  provide: ^1.0.2
+  # alert
+  fluttertoast: ^3.1.2
+  #  rendering static html tags as Flutter widgets
+  flutter_html: ^0.10.4
+  # 
+  shared_preferences: ^0.5.1
+  # 
+  amap_base: ^0.3.5
 
 dev_dependencies:
   flutter_test:

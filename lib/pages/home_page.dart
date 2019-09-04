@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        appBar: AppBar(title:Text('Car life')),
+        appBar: AppBar(title:Text('Cartoon')),
         body: FutureBuilder(
           future: getHomePageContent(),
           builder: (context, snapshot){
