@@ -193,6 +193,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 53VUVA3CT9;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
